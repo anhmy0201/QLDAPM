@@ -1,0 +1,17 @@
+@extends('layouts.app')
+@section('content')
+<p><a href="{{ route('category') }}">Về danh sách</a></p>
+<h3 class="text-info">Thêm mới</h3>
+<form action="{{ route('category.create') }}" method="post">
+@csrf
+<div class="mb-3">
+<label class="form-label" for="name">Tên</label>
+<input type="text" class="form-control" id="name" name="name" required />
+</div>
+<div class="mb-3">
+<label class="form-label" for="order">Thứ tự</label>
+<input type="number" class="form-control" id="order" name="order" value="0" />
+</div>
+<button type="submit" class="btn btn-primary"> Lưu </button>
+</form>
+@endsection
