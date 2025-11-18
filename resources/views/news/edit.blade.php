@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 @section('content')
+<div class="container mt-4">
 <p><a href="{{ route('news') }}">Về danh sách</a></p>
 <h3 class="text-info">Cập nhật bản tin</h3>
 <form action="{{ route('news.edit', $news->id) }}" method="post" enctype="multipart/form-data">
@@ -23,10 +24,13 @@
 <textarea type="text" class="form-control" id="description" name="description" required>{{
 $news->description }}</textarea>
 </div>
-<div class="mb-3">
-<label class="form-label" for="content">Nội dung</label>
-<textarea type="text" class="form-control" id="content" name="content" required>{{ $news-
->content }}</textarea>
+<div class="row">
+    <div class="col-12"> 
+        <div class="mb-3">
+            <label class="form-label" for="content">Nội dung</label>
+            <textarea class="form-control" id="content" name="content" rows="10" required>{{ $news->content }}</textarea>
+        </div>
+    </div>
 </div>
 <div class="mb-3">
 <label class="form-label" for="image">Hình</label>
@@ -34,10 +38,10 @@ $news->description }}</textarea>
 </div>
 <div class="mb-3">
 <label class="form-label" for="caption">Tiêu đề hình</label>
-nmvi@agu.edu.vn 6
 <input type="text" class="form-control" id="caption" name="caption" value="{{ $news->caption
 }}"/>
 </div>
 <button type="submit" class="btn btn-primary"> Lưu </button>
 </form>
+</div>
 @endsection

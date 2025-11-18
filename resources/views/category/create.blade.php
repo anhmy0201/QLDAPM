@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 @section('content')
+<div class="container mt-4">
 <p><a href="{{ route('category') }}">Về danh sách</a></p>
 <h3 class="text-info">Thêm mới</h3>
 <form action="{{ route('category.create') }}" method="post">
@@ -14,4 +15,5 @@
 </div>
 <button type="submit" class="btn btn-primary"> Lưu </button>
 </form>
+</div>
 @endsection

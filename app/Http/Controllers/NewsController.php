@@ -35,15 +35,14 @@ $request->validate([
 'image' => 'required|file|mimes:jpg,jpeg,png,gif|max:2048',
 ]);
 // upload ảnh
-$path = '';
-if($request->hasFile('image')){
-$name = $request->file('image')->getClientOriginalName(); // lấy tên file gốc
-$timestamp = now()->format('dmY_His'); // lấy chuỗi thời gian
-$filename = $timestamp . '_' . $name; // tên file mới ghép chuỗi thời gian_tên gốc
-// lưu file vào thư mục upload (storage/app/private/upload)
-// có thể định lại vị trí lưu trữ trong config/filesystems.php
-$path = Storage::putFileAs('upload', $request->file('image'), $filename);
-}
+        $path = '';
+        if($request->hasFile('image')){
+            $name = $request->file('image')->getClientOriginalName(); // lấy tên file gốc
+            $timestamp = now()->format('dmY_His'); // lấy chuỗi thời gian
+            $filename = $timestamp . '_' . $name; // tên file mới ghép chuỗi thời gian_tên gốc
+            // lưu file vào thư mục upload trên disk public (storage/app/public/upload)
+            $path = $request->file('image')->storeAs('upload', $filename, 'public');
+        }
 // lưu tin
 $obj = new News();
 $obj->category_id = $request->category_id;
@@ -88,16 +87,16 @@ $request->validate([
 ]);
 $obj = News::find($id);
 // upload ảnh
-$path = '';
-if($request->hasFile('image')){
-// xóa ảnh cũ
-if(!empty($obj->image)) Storage::delete($obj->image);
-// up ảnh mới
-$name = $request->file('image')->getClientOriginalName(); // lấy tên file gốc
-$timestamp = now()->format('dmY_His'); // lấy chuỗi thời gian
-$filename = $timestamp . '_' . $name; // tên file mới ghép chuỗi thời gian_tên gốc
-$path = Storage::putFileAs('upload', $request->file('image'), $filename);
-}
+        $path = '';
+        if($request->hasFile('image')){
+            // xóa ảnh cũ
+            if(!empty($obj->image)) Storage::disk('public')->delete($obj->image);
+            // up ảnh mới
+            $name = $request->file('image')->getClientOriginalName(); // lấy tên file gốc
+            $timestamp = now()->format('dmY_His'); // lấy chuỗi thời gian
+            $filename = $timestamp . '_' . $name; // tên file mới ghép chuỗi thời gian_tên gốc
+            $path = $request->file('image')->storeAs('upload', $filename, 'public');
+        }
 // lưu tin
 $obj->category_id = $request->category_id;
 if (Auth::check()) {
@@ -118,10 +117,10 @@ return redirect()->route('news');
 */
 public function destroy($id)
 {
-$obj = News::find($id);
-$obj-> delete();
-// xóa hình ảnh của bản tin
-if(!empty($obj->image)) Storage::delete($obj->image);
+        $obj = News::find($id);
+        $obj-> delete();
+        // xóa hình ảnh của bản tin
+        if(!empty($obj->image)) Storage::disk('public')->delete($obj->image);
 return redirect()->route('news');
 }
 public function main()

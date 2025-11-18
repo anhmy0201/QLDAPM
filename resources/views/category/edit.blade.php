@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 @section('content')
+<div class="container mt-4">
 <p><a href="{{ route('category') }}">Về danh sách</a></p>
 <h3 class="text-info">Cập nhật</h3>
 <form action="{{ route('category.edit', ['id' => $category->id]) }}" method="post">
@@ -16,4 +17,5 @@ required />
 </div>
 <button type="submit" class="btn btn-primary"> Lưu </button>
 </form>
+</div>
 @endsection

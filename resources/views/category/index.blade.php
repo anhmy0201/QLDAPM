@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 @section('content')
+<div class="container mt-4">
 <h3 class="text-info">Danh mục chủ đề</h3>
 <div class="table-responsive">
 <p><a href="{{ route('category.create') }}" class="btn btn-info">Thêm mới</a></p>
@@ -35,5 +36,6 @@ không?')">Xóa</a>
 @endforeach
 </tbody>
 </table>
+</div>
 </div>
 @endsection

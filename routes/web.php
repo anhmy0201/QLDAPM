@@ -32,3 +32,7 @@ Route::get('/news/delete/{id}', [NewsController::class, 'destroy'])->name('news.
 //});
 // Trang xem tin mặc định
 Route::get('/', [NewsController::class, 'main'])->name('main');
+
+Route::get('/home_admin', function () {
+    return view('home_admin'); 
+})->middleware('auth')->name('home_admin');

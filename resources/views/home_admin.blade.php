@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 
 @section('content')
 <div class="container mt-4">
@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Thông báo') }}</div>
-
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -14,7 +13,7 @@
                         </div>
                     @endif
 
-                    {{ __('Bạn đã đăng nhập thành công!') }}
+                    {{ __('Chào mừng bạn đến trang quản lý trang tin!') }}
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 @section('content')
+<div class="container mt-4">
 <p><a href="{{ route('news') }}">Về danh sách</a></p>
 <h3 class="text-info">Chi tiết bản tin</h3>
 <p><strong>Tên người đăng:</strong> {{ $name }}</p>
@@ -13,4 +14,5 @@ width="300" class="img-thumbnail"></p>
 <a href="{{ route('news.delete', ['id' => $news->id]) }}" class="btn btn-danger"
 onclick="return confirm('Bạn có muốn xóa bản tin {{ $news->name }} không?')">Xóa</a>
 </p>
+</div>
 @endsection

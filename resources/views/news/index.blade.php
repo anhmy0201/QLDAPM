@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 @section('content')
+<div class="container mt-4">
 <h3 class="text-info">Danh sách bản tin</h3>
 <div class="table-responsive">
 <p><a href="{{ route('news.create') }}" class="btn btn-info">Thêm mới</a></p>
@@ -19,8 +20,12 @@
 <tr valign="middle">
 <td>{{ $loop->iteration }}</td>
 <td>{{ $value->title }}</td>
-<td class="text-center"><img src="{{ env('APP_URL') . '/news/storage/app/private/' .
-$value->image }}" width="100" class="img-thumbnail"></td>
+<td class="text-center">
+    <img src="{{ asset('storage/image/' . $value->image) }}" 
+         class="img-thumbnail object-fit-cover" 
+         style="width: 100px; height: 60px;" 
+         alt="Ảnh tin">
+</td>
 <td class="text-center">
 <a href="{{ route('news.detail', ['id' => $value->id]) }}" class="btn btnlight">Chi tiết</a>
 </td>
@@ -36,5 +41,6 @@ không?')">Xóa</a>
 @endforeach
 </tbody>
 </table>
+</div>
 </div>
 @endsection
