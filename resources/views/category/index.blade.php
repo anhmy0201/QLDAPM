@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 @section('content')
+<div class="container mt-4">
 <h3 class="text-info">Danh mục chủ đề</h3>
 <div class="table-responsive">
 <p><a href="{{ route('category.create') }}" class="btn btn-info">Thêm mới</a></p>
@@ -8,18 +9,16 @@
 <tr class="text-center">
 <th width="5%">STT</th>
 <th width="45%">Tên danh mục</th>
-<th width="20%">Thứ tự</th>
 <th width="10%">Chi tiết</th>
 <th width="10%">Sửa</th>
 <th width="10%">Xóa</th>
 </tr>
 </thead>
 <tbody>
-@foreach($category as $value)
+@foreach($categories as $value)
 <tr>
 <td>{{ $loop->iteration }}</td>
 <td>{{ $value->name }}</td>
-<td>{{ $value->order }}</td>
 <td class="text-center">
 <a href="{{ route('category.detail', ['id' => $value->id]) }}" class="btn btnlight">Chi tiết</a>
 </td>
@@ -35,5 +34,6 @@ không?')">Xóa</a>
 @endforeach
 </tbody>
 </table>
+</div>
 </div>
 @endsection

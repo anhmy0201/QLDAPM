@@ -3,8 +3,8 @@
 @section('content')
 <div class="container mt-4">
     
-    @if($news->count() > 0)
-        @php $firstNews = $news->first(); @endphp
+    @if($newsall->count() > 0)
+        @php $firstNews = $newsall->first(); @endphp
         <div class="card border-0 shadow-sm mb-5 overflow-hidden">
             <div class="row g-0">
                 <div class="col-md-8">
@@ -31,7 +31,7 @@
             <h4 class="border-start border-4 border-primary ps-2 mb-4 fw-bold text-uppercase">Tin tức tổng hợp</h4>
             
             <div class="row row-cols-1 row-cols-md-2 g-4">
-                @foreach($news->skip(1) as $item)
+                @foreach($news as $item)
                 <div class="col">
                     <div class="card h-100 border-0 shadow-sm hover-shadow transition-card">
                         {{-- Ảnh bài viết --}}
@@ -61,7 +61,7 @@
                             </p>
                         </div>
 
-                        {{-- Footer card --}}
+                        {{-- Footer card --}}  
                         <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center pb-3">
                             <small class="text-muted">
                                 <i class="bi bi-calendar3"></i> {{ $item->created_at->format('d/m/Y') }}
@@ -79,7 +79,7 @@
                 <h4 class="border-start border-4 border-warning ps-2 mb-4 fw-bold text-uppercase">Đáng chú ý</h4>
                 
                 <div class="list-group list-group-flush shadow-sm rounded">
-                    @foreach($news->take(5) as $item)
+                    @foreach($newsall->take(5) as $item)
                     <a href="{{ route('news.detail', $item->id) }}" class="list-group-item list-group-item-action p-3 d-flex align-items-start">
                         <div class="flex-shrink-0 me-3" style="width: 80px;">
                             <div class="ratio ratio-1x1">

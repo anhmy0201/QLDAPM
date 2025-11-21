@@ -6,8 +6,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
+
 Route::get('/', function () {
-return view('welcome');
+    return view('welcome');
 });
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -32,3 +33,9 @@ Route::get('/news/delete/{id}', [NewsController::class, 'destroy'])->name('news.
 //});
 // Trang xem tin mặc định
 Route::get('/', [NewsController::class, 'main'])->name('main');
+
+Route::get('/home_admin', function () {
+    return view('home_admin');
+})->middleware('auth')->name('home_admin');
+
+Route::get('/views/tintucchude/{id}', [NewsController::class, 'tintucchude'])->name('tintucchude');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_admin')
 
 @section('content')
 <div class="container mt-4">
@@ -13,7 +13,7 @@
                         </div>
                     @endif
 
-                    {{ __('Bạn đã đăng nhập thành công!') }}
+                    {{ __('Chào mừng bạn đến trang quản lý trang tin!') }}
                 </div>
             </div>
         </div>
