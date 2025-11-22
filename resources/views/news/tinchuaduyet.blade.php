@@ -1,0 +1,56 @@
+ @extends('layouts.app_admin')
+@section('content')
+<div class="container mt-4">
+<h3 class="text-info">Danh sách bản tin</h3>
+<div class="table-responsive">
+<p><a href="{{ route('news.create') }}" class="btn btn-info">Thêm mới</a></p>
+<table class="table table-bordered table-hover">
+<thead>
+<tr class="text-center">
+<th width="5%">STT</th>
+<th width="45%">Tiêu đề</th>
+<th width="20%">Hình</th>
+<th width="10%">Chi tiết</th>
+<th width="10%">Sửa</th>
+<th width="10%">Xóa</th>
+<th width="10%">Duyệt</th>
+
+</tr>
+</thead>
+<tbody>
+@foreach($newsall as $value)
+@if($value->status == 0)
+<tr valign="middle">
+<td>{{ $loop->iteration }}</td>
+<td>{{ $value->title }}</td>
+<td class="text-center">
+    <img src="{{ asset('storage/image/' . $value->image) }}" 
+         class="img-thumbnail object-fit-cover" 
+         style="width: 100px; height: 60px;" 
+         alt="Ảnh tin">
+</td>
+<td class="text-center">
+<a href="{{ route('news.detail', ['id' => $value->id]) }}" class="btn btnlight">Chi tiết</a>
+</td>
+<td class="text-center">
+<a href="{{ route('news.edit', ['id' => $value->id]) }}" class="btn btnwarning">Sửa</a>
+</td>
+<td class="text-center">
+<a href="{{ route('news.deleteduyet', ['id' => $value->id]) }}" class="btn btn-danger"
+onclick="return confirm('Bạn có muốn xóa bản tin {{ $value->name }}
+không?')">Xóa</a>
+</td>
+<td class="Text-center">
+    <a href="{{ route('news.duyettin', ['id' => $value->id]) }}" class="btn btn-success"
+onclick="return confirm('Bạn có muốn duyệt bản tin {{ $value->name }}
+không?')">Duyệt</a>
+</td>
+</tr>
+@endif
+@endforeach
+</tbody>
+</table>
+</div>
+</div>
+
+@endsection
