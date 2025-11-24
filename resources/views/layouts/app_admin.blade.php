@@ -133,7 +133,7 @@
 
     <li>
         <a class="dropdown-item" href="{{ url('/comments/binhluanchuaduyet') }}">
-            <i class="bi bi-chat-left-text me-2"></i>Bình luận chờ duyệt
+            <i class="bi bi-chat-left-text me-2"></i>Báo cáo bình luận
         </a>
     </li>
     <li>
@@ -171,24 +171,21 @@
                             @endif
                         @else
                             <li class="nav-item dropdown ms-2">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center"
-                                    href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false" v-pre>
-                                    <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-2"
-                                        style="width: 32px; height: 32px; font-size: 14px;">
-                                        {{ substr(Auth::user()->name, 0, 1) }}
-                                    </div>
-                                    <span class="fw-bold">{{ Auth::user()->name }}</span>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        <img src="{{ asset('storage/upload/' .  Auth::user()->avatar) }}"  alt="Avatar" 
+                                            style="height:40px; width:40px; object-fit:cover; border-radius:50%;">
+                                    <span class="ms-2">{{ Auth::user()->name }}</span>
                                 </a>
-
+                                <div class="dropdown-menu dropdown-menu-end border-0 shadow" aria-labelledby="navbarDropdown">
+                                   
                                 <div class="dropdown-menu dropdown-menu-end shadow border-0 pt-0"
                                     aria-labelledby="navbarDropdown">
                                     <div class="px-3 py-2 bg-light border-bottom mb-2">
                                         <small class="text-muted">Xin chào,</small><br>
                                         <strong>{{ Auth::user()->name }}</strong>
                                     </div>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi bi-person-gear me-2"></i> Hồ sơ cá nhân
+                                  <a class="dropdown-item" href="{{ route('user.detail', ['id' => Auth::user()->id]) }}">
+                                        <i class="bi bi-person me-2" ></i> Hồ sơ cá nhân
                                     </a>
                                     <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

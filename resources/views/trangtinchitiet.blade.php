@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container my-5">
     <!-- Breadcrumb -->
@@ -16,7 +15,7 @@
     <!-- Article -->
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
         @if($news->image)
-        <img src="{{ asset('storage/image/' . $news->image) }}" class="img-fluid w-100" style="max-height:500px; object-fit:cover;" alt="{{ $news->title }}">
+        <img src="{{ asset('storage/upload/' . $news->image) }}" class="img-fluid w-100" style="max-height:500px; object-fit:cover;" alt="{{ $news->title }}">
         @endif
 
         <div class="card-body px-4 py-5">
@@ -35,7 +34,6 @@
             <!-- Bình luận -->
             <div class="comments">
                 <h5 class="fw-bold mb-3">Bình luận</h5>
-                  <!-- Form thêm bình luận -->
                 <form id="commentForm">
     @csrf
       <div class="mb-3">
@@ -70,11 +68,12 @@
         </button>
 
         <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-                <button class="dropdown-item text-danger report-btn" data-id="{{ $comment->id }}">
-                    <i class="bi bi-flag-fill me-1"></i> Báo cáo
-                </button>
-            </li>
+           <li>
+    <a class="dropdown-item text-danger" 
+       href="{{ route('comment.baocao', ['id' => $comment->id]) }}">
+        <i class="bi bi-flag-fill me-1"></i> Báo cáo
+    </a>
+</li>
         </ul>
     </div>
 </li>
@@ -93,7 +92,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
                     @if($item->image)
-                    <img src="{{ asset('storage/image/' . $item->image) }}" class="card-img-top" style="height:200px; object-fit:cover;" alt="{{ $item->title }}">
+                    <img src="{{ asset('storage/upload/' . $item->image) }}" class="card-img-top" style="height:200px; object-fit:cover;" alt="{{ $item->title }}">
                     @endif
                     <div class="card-body">
                         <h6 class="card-title">
@@ -114,6 +113,17 @@
 <style>
     .content-body img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1rem 0; }
     .breadcrumb a { text-decoration: none; }
+    .content-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.content-body p {
+    text-align: center;
+}
+
 </style>
 <script>
 document.getElementById('commentForm').addEventListener('submit', function(e){

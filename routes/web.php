@@ -7,6 +7,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CkeditorController;
+use App\Http\Controllers\SearchController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -29,14 +30,23 @@ Route::get('/news/edit/{id}', [NewsController::class, 'edit'])->name('news.edit'
 Route::post('/news/edit/{id}', [NewsController::class, 'update'])->name('news.edit');
 Route::get('/news/delete/{id}', [NewsController::class, 'destroy'])->name('news.delete');
 Route::get('/news/destroy/{id}', [NewsController::class, 'destroyduyet'])->name('news.deleteduyet');
+Route::get('/news/search', [NewsController::class, 'search'])->name('news.search');
 // Quản lý các bình luận
 Route::post('/comments/create/{id}', [CommentController::class, 'store'])->name('comment.create');
 Route::get('/comments', [CommentController::class, 'main'])->name('comments');
 Route::get('/comments/delete/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
 Route::get('/comments/duyet/{id}', [CommentController::class, 'duyet'])->name('comment.duyet');
+Route::get('/comments/baocao/{id}', [CommentController::class, 'baocao'])->name('comment.baocao');
 // Quản lý các user
 Route::get('/user', [UserController::class, 'index'])->name('user');
 Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('user.detail');
+Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::post('/user/edit/{id}', [UserController::class, 'update'])->name('user.edit');
+// Quản lý các từ khóa
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/search/delete/{id}', [SearchController::class, 'destroy'])->name('search.delete');
+Route::get('/search/detail/{id}', [SearchController::class, 'show'])->name('search.detail');
 //Route::get('/', function () {
 // return view('welcome');
 //});

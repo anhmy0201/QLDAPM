@@ -1,4 +1,4 @@
-@extends('layouts.app_admin')
+@extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
@@ -16,7 +16,7 @@
                     
                     @if($news->image)
                         <div class="text-center mb-4">
-                            <img src="{{ asset('storage/image/' . $news->image) }}" 
+                            <img src="{{ asset('storage/upload/' . $news->image) }}" 
                                  class="img-fluid rounded shadow-sm border" 
                                  style="max-height: 400px; width: 100%; object-fit: cover;" 
                                  alt="{{ $news->title }}">

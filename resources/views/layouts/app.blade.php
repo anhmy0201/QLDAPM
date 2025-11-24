@@ -16,6 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
+        
         .navbar-brand {
             font-size: 1.5rem;
             letter-spacing: -0.5px;
@@ -43,7 +44,6 @@
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
@@ -66,6 +66,10 @@
         @endif
     </ul>
 </li>
+ <form class="d-flex" role="search" action="{{ route('news.search') }}" method="GET">
+    <input class="form-control form-control-sm me-2 ms-4" type="search" name="keyword" placeholder="Tìm kiếm..." aria-label="Search" value="{{ request('keyword') }}" style="width:350px;">
+    <button class="btn btn-sm btn-primary" type="submit">Tìm</button>
+</form>
                     </ul>
                     <ul class="navbar-nav ms-auto align-items-center">
                         @if(Auth::check() && Auth::user()->role == "0")
@@ -75,23 +79,19 @@
                                     aria-expanded="false">
                                     <i class="bi bi-shield-lock-fill me-1"></i> Quản trị viên
                                 </a>
-                               <ul class="dropdown-menu dropdown-menu-end shadow border-0"
-    aria-labelledby="adminDropdown">
+                             <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="adminDropdown">
     <li>
         <a class="dropdown-item" href="{{ url('/home_admin') }}">
             <i class="bi bi-speedometer2 me-2"></i>Dashboard
         </a>
     </li>
     <li><hr class="dropdown-divider"></li>
-
     <li>
         <a class="dropdown-item" href="{{ url('/category') }}">
             <i class="bi bi-list-task me-2"></i>Quản lý Danh mục
         </a>
     </li>
-
     <li><hr class="dropdown-divider"></li>
-
     <li>
         <a class="dropdown-item" href="{{ url('/news/tinchuaduyet') }}">
             <i class="bi bi-hourglass-split me-2"></i>Tin chờ duyệt
@@ -102,12 +102,10 @@
             <i class="bi bi-check-circle me-2"></i>Tin đã duyệt
         </a>
     </li>
-
     <li><hr class="dropdown-divider"></li>
-
     <li>
         <a class="dropdown-item" href="{{ url('/comments/binhluanchuaduyet') }}">
-            <i class="bi bi-chat-left-text me-2"></i>Bình luận chờ duyệt
+            <i class="bi bi-chat-left-text me-2"></i>Báo cáo bình luận
         </a>
     </li>
     <li>
@@ -115,17 +113,20 @@
             <i class="bi bi-chat-left-text-fill me-2"></i>Bình luận
         </a>
     </li>
-
     <li><hr class="dropdown-divider"></li>
-
-    <!-- ✓ Thêm phần quản lý người dùng -->
     <li>
         <a class="dropdown-item" href="{{ url('/user') }}">
             <i class="bi bi-people-fill me-2"></i>Quản lý người dùng
         </a>
     </li>
+    <li><hr class="dropdown-divider"></li>
+    <!-- ✓ Quản lý từ khóa tìm kiếm -->
+    <li>
+        <a class="dropdown-item" href="{{ url('/search') }}">
+            <i class="bi bi-search me-2"></i>Quản lý từ khóa tìm kiếm
+        </a>
+    </li>
 </ul>
-
 
                         @endif
                         @if(Auth::check() && Auth::user()->role == 2)
@@ -135,7 +136,6 @@
                                 </a>
                             </li>
                         @endif
-
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -151,15 +151,19 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <div class="bg-primary text-white rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 14px;">
-                                        {{ substr(Auth::user()->name, 0, 1) }}
-                                    </div>
-                                    {{ Auth::user()->name }}
+                                    @if(Auth::user()->avatar == null)
+                                     <img  src="{{ asset('storage/upload/default-avatar.jpg') }}"  alt="Avatar" 
+                                            style="height:40px; width:40px; object-fit:cover; border-radius:50%;">
+                                    <span class="ms-2">{{ Auth::user()->name }}</span>
+                                    @else
+                                    <img src="{{ asset('storage/upload/' .  Auth::user()->avatar) }}"  alt="Avatar" 
+                                            style="height:40px; width:40px; object-fit:cover; border-radius:50%;">
+                                    <span class="ms-2">{{ Auth::user()->name }}</span>
+                                    @endif
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-end border-0 shadow" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi bi-person me-2"></i> Hồ sơ cá nhân
+                                    <a class="dropdown-item" href="{{ route('user.detail', ['id' => Auth::user()->id]) }}">
+                                        <i class="bi bi-person me-2"  ></i> Hồ sơ cá nhân
                                     </a>
                                     <hr class="dropdown-divider">
                                     <a class="dropdown-item text-danger" href="{{ route('logout') }}"
@@ -167,7 +171,6 @@
                                                      document.getElementById('logout-form').submit();">
                                         <i class="bi bi-box-arrow-right me-2"></i> {{ __('Đăng xuất') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -179,6 +182,7 @@
             </div>
         </nav>
         <main class="py-4 flex-grow-1">
+            
             @yield('content')
         </main>
 

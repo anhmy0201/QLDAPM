@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container mt-4">
-<h3 class="text-info">Danh sách người dùng</h3>
+<h3 class="text-info">Danh sách từ khóa tìm kiếm</h3>
 <div class="table-responsive">
 
 <table class="table table-bordered table-hover">
@@ -9,30 +9,22 @@
 <tr class="text-center">
 <th width="5%">STT</th>
 <th width="20%">Họ tên</th>
-<th width="20%">email</th>
-<th width="15%">Loại</th>
+<th width="25%">Nội dung</th>
 <th width="10%">Chi tiết</th>
 <th width="10%">Xóa</th>
 </tr>
 </thead>
 <tbody>
-@foreach($user as $value)
+@foreach($search as $value)
 <tr valign="middle">
 <td>{{ $loop->iteration }}</td>
-<td>{{ $value->name }}</td>
-<td>{{ $value->email }}</td>
-@if($value->role == 1)
-<td>Độc giả</td>
-@elseif($value->role == 2)
-<td>Tác giả</td>
-@else
-<td>admin</td>
-@endif
+<td>{{ $value->user->name }}</td>
+<td>{{ $value->keyword }}</td>
 <td class="text-center">
-<a href="{{ route('user.detail', ['id' => $value->id]) }}" class="btn btnlight">Chi tiết</a>
+<a href="{{ route('search.detail', ['id' => $value->id]) }}" class="btn btnlight">Chi tiết</a>
 </td>
 <td class="text-center">
-<a href="{{ route('user.delete', ['id' => $value->id]) }}" class="btn btn-danger"
+<a href="{{ route('search.delete', ['id' => $value->id]) }}" class="btn btn-danger"
 onclick="return confirm('Bạn có muốn xóa bản tin {{ $value->name }}
 không?')">Xóa</a>
 </td>

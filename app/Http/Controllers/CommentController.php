@@ -98,5 +98,14 @@ return response()->json([
         return redirect()->back()->with('success', 'Duyệt bình luận thành công!');
     }
     return redirect()->back()->with('error', 'bình luận không tồn tại hoặc đã duyệt!');
+} public function baocao($id)
+{
+    $updated = Comment::where('id', $id)
+                ->update(['status' => 0]);
+
+    if ($updated) {
+        return redirect()->back()->with('success', 'báo cáo bình luận thành công!');
+    }
+    return redirect()->back()->with('error', 'bình luận không tồn tại!');
 }
 }

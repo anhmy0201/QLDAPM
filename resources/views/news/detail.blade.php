@@ -1,4 +1,4 @@
-@extends('layouts.app_admin')
+@extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
@@ -15,7 +15,7 @@
                     
                     @if($news->image)
                         <div class="text-center mb-4">
-                            <img src="{{ asset('storage/image/' . $news->image) }}" 
+                            <img src="{{ asset('storage/upload/' . $news->image) }}" 
                                  class="img-fluid rounded shadow-sm border" 
                                  style="max-height: 400px; width: 100%; object-fit: cover;" 
                                  alt="{{ $news->title }}">
@@ -76,7 +76,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
                     @if($item->image)
-                    <img src="{{ asset('storage/image/' . $item->image) }}" class="card-img-top" style="height:200px; object-fit:cover;" alt="{{ $item->title }}">
+                    <img src="{{ asset('storage/upload/' . $item->image) }}" class="card-img-top" style="height:200px; object-fit:cover;" alt="{{ $item->title }}">
                     @endif
                     <div class="card-body">
                         <h6 class="card-title">
@@ -146,6 +146,17 @@
     </div>
 </div>
 <style>
+    .content-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.content-body p {
+    text-align: center;
+}
+
     .ck-toolbar {
         display: none !important;
     }

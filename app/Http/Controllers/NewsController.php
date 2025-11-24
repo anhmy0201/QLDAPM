@@ -83,10 +83,8 @@ public function store(Request $request)
 
     $obj = News::find($id);
 
-    // 1. Mặc định giữ ảnh cũ
     $filename = $obj->image;
 
-    // 2. Nếu có upload ảnh mới
     if ($request->hasFile('image')) {
 
         // Xóa ảnh cũ
@@ -94,7 +92,6 @@ public function store(Request $request)
             Storage::disk('public')->delete('upload/' . $obj->image);
         }
 
-        // Upload ảnh mới
         $filename = $request->file('image')->getClientOriginalName();
         $request->file('image')->storeAs('upload', $filename, 'public');
     }
@@ -165,10 +162,25 @@ public function store(Request $request)
 
     public function chitiet($id)
 {
-    $news = News::with(['comments' => function($query) {
-    $query->where('status', 1);
-}])->findOrFail($id);
+    $news = News::with(['comments'])->findOrFail($id);
     return view('trangtinchitiet', compact('news'));
+}
+    public function search(Request $request)
+{
+    $keyword = $request->input('keyword');
+
+    if (auth()->check() && $keyword) {
+        \App\Models\Search::create([
+            'user_id' => auth()->id(),
+            'keyword' => $keyword,
+        ]);
+    }
+
+    $news = News::where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('content', 'LIKE', "%{$keyword}%")
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
+    return view('search_news', compact('news', 'keyword'));
 }
 
 }

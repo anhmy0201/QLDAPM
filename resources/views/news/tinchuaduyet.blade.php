@@ -1,4 +1,4 @@
- @extends('layouts.app_admin')
+ @extends('layouts.app')
 @section('content')
 <div class="container mt-4">
 <h3 class="text-info">Danh sách bản tin</h3>
@@ -26,7 +26,7 @@
 <td>{{ $value->title }}</td>
 <td>{{ $value->user->name }}</td>
 <td class="text-center">
-    <img src="{{ asset('storage/image/' . $value->image) }}" 
+    <img src="{{ asset('storage/upload/' . $value->image) }}" 
          class="img-thumbnail object-fit-cover" 
          style="width: 100px; height: 60px;" 
          alt="Ảnh tin">

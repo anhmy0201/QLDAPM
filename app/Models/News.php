@@ -18,4 +18,8 @@ class News extends Model
     public function Comments(): HasMany // mỗi bản tin có nhiều bình luận
     {return $this->HasMany(Comment::class, 'new_id', 'id');
     }
+    public function savedByUsers()
+    {
+    return $this->belongsToMany(User::class, 'saved_news');
+}
 }

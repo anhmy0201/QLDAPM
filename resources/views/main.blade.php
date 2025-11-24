@@ -9,7 +9,7 @@
             <div class="row g-0">
                 <div class="col-md-8">
                     <div class="ratio ratio-16x9 h-100">
-                         <img src="{{ asset('storage/image/' . $firstNews->image) }}" 
+                         <img src="{{ asset('storage/upload/' . $firstNews->image) }}" 
                               class="object-fit-cover" alt="{{ $firstNews->title }}">
                     </div>
                 </div>
@@ -34,9 +34,9 @@
                 @foreach($news->skip(1) as $item)
                 <div class="col">
                     <div class="card h-100 border-0 shadow-sm hover-shadow transition-card">
-                        {{-- Ảnh bài viếtttt --}}
+                        {{-- Ảnh bài viết --}}
                         <div class="ratio ratio-4x3">
-                            <img src="{{ asset('storage/image/' . $item->image) }}" 
+                            <img src="{{ asset('storage/upload/' . $item->image) }}" 
                                  class="card-img-top object-fit-cover" alt="{{ $item->title }}">
                         </div>
                         
@@ -83,7 +83,7 @@
                     <a href="{{ route('news.chitiet', $item->id) }}" class="list-group-item list-group-item-action p-3 d-flex align-items-start">
                         <div class="flex-shrink-0 me-3" style="width: 80px;">
                             <div class="ratio ratio-1x1">
-                                <img src="{{ asset('storage/image/' . $item->image) }}" 
+                                <img src="{{ asset('storage/upload/' . $item->image) }}" 
                                      class="img-fluid rounded object-fit-cover" alt="...">
                             </div>
                         </div>

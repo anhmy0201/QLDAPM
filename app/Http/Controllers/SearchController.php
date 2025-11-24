@@ -6,9 +6,10 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\User;
+use App\Models\Search;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class UserController extends Controller
     
     public function index()
     {
-        $user = User::with(['Comments', 'News'])->get();
-        return view('user.index', compact('user'));
+        $search = Search::with(['User'])->get();
+        return view('search.index', compact('search'));
     }
     public function main()
     {
@@ -36,8 +37,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with(['Comments','News'])->findOrFail($id);
-        return view('user.detail', compact('user'));
+    $search=Search::find($id);
+    $keyword=$search->keyword;
+    $news = News::where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('content', 'LIKE', "%{$keyword}%")
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
+    return view('search_news', compact('news', 'keyword'));
     }
 
     /**
@@ -49,11 +55,6 @@ class UserController extends Controller
     $user = User::findOrFail($id); // luôn trả về 1 model
     return view('user.edit', compact('user'));
 }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
    public function update(Request $request, $id)
 {
     $request->validate([
@@ -86,11 +87,9 @@ class UserController extends Controller
      */
   public function destroy($id)
 {
-    $user = User::findOrFail($id);
-    Comment::where('user_id', $id)->delete();
-    News::where('user_id', $id)->delete();
-    $user->delete();
-    return redirect()->back()->with('success', 'Xóa người dùng và toàn bộ dữ liệu liên quan thành công!');
+    $search = Search::findOrFail($id);
+    $search->delete();
+    return redirect()->back()->with('success', 'Xóa từ khóa thành công!');
 }
 
 }
