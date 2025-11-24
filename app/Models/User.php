@@ -48,4 +48,7 @@ class User extends Authenticatable
     public function News(): HasMany // mỗi người dùng có thể đăng nhiều bản tin
     {return $this->hasMany(News::class, 'user_id', 'id');
     }
+    public function Comments(): HasMany 
+    {return $this->HasMany(Comment::class, 'user_id', 'id');
+    }
 }

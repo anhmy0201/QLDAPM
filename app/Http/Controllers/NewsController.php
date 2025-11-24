@@ -16,53 +16,44 @@ class NewsController extends Controller
     * Display a listing of the resource.
     */
     public function index()
-    {
-        $news = News::orderBy('created_at', 'desc')->get();
-        return View('news.index', compact('news'));
-    }
+{
+    $newsall = News::orderBy('created_at', 'desc')->get();
+    $news = News::where('status', 1)->get();
+    return view('news.index', compact('news'));
+}
     /**
     * Show the form for creating a new resource.
     */
-    public function create()
-    {
-        $category = Category::all();
-        return view('news.create', compact('category'));
+  public function create()
+{
+    $category = Category::all();
+    return view('news.create', compact('category'));
+}
+public function store(Request $request)
+{
+    $filename = null;
+
+    // upload ảnh
+    if ($request->hasFile('image')) {
+        $filename = $request->file('image')->getClientOriginalName();
+        $request->file('image')->storeAs('upload', $filename, 'public');
     }
-    /**
-    * Store a newly created resource in storage.
-    */
-    public function store(Request $request)
-    {
-        $request->validate([
-        'image' => 'required|file|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
-        // upload ảnh
-        $path = '';
-        if ($request->hasFile('image')) {
-            $name = $request->file('image')->getClientOriginalName(); // lấy tên file gốc
-            $timestamp = now()->format('dmY_His'); // lấy chuỗi thời gian
-            $filename = $timestamp . '_' . $name; // tên file mới ghép chuỗi thời gian_tên gốc
-            // lưu file vào thư mục upload trên disk public (storage/app/public/upload)
-            $path = $request->file('image')->storeAs('upload', $filename, 'public');
-        }
-        // lưu tin
-        $obj = new News();
-        $obj->category_id = $request->category_id;
-        if (Auth::check()) {
-            $obj->user_id = Auth::user()->id;
-        } else {
-            $obj->user_id = 1;
-        }
-        $obj->title = $request->title;
-        $obj->description = $request->description;
-        $obj->content = $request->content;
-        if ($path != '') {
-            $obj->image = $path;
-        }
-        $obj->caption = $request->caption;
-        $obj->save();
-        return redirect()->route('news');
-    }
+
+    // lưu tin
+    $obj = new News();
+    $obj->category_id = $request->category_id;
+    $obj->user_id = Auth::check() ? Auth::user()->id : 1;
+    $obj->title = $request->title;
+    $obj->description = $request->description;
+    $obj->content = $request->content;
+    $obj->image = $filename; // luôn có biến, null nếu không có ảnh
+    $obj->caption = $request->caption;
+    $obj->save();
+
+    // QUAN TRỌNG – phải return
+    return redirect()->route('news')->with('success', 'Tạo tin thành công!');
+}
+
     /**
     * Display the specified resource.
     */
@@ -85,41 +76,43 @@ class NewsController extends Controller
     * Update the specified resource in storage.
     */
     public function update(Request $request, $id)
-    {
-        $request->validate([
+{
+    $request->validate([
         'image' => 'file|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
-        $obj = News::find($id);
-        // upload ảnh
-        $path = '';
-        if ($request->hasFile('image')) {
-            // xóa ảnh cũ
-            if (!empty($obj->image)) {
-                Storage::disk('public')->delete($obj->image);
-            }
-            // up ảnh mới
-            $name = $request->file('image')->getClientOriginalName(); // lấy tên file gốc
-            $timestamp = now()->format('dmY_His'); // lấy chuỗi thời gian
-            $filename = $timestamp . '_' . $name; // tên file mới ghép chuỗi thời gian_tên gốc
-            $path = $request->file('image')->storeAs('upload', $filename, 'public');
+    ]);
+
+    $obj = News::find($id);
+
+    // 1. Mặc định giữ ảnh cũ
+    $filename = $obj->image;
+
+    // 2. Nếu có upload ảnh mới
+    if ($request->hasFile('image')) {
+
+        // Xóa ảnh cũ
+        if (!empty($obj->image)) {
+            Storage::disk('public')->delete('upload/' . $obj->image);
         }
-        // lưu tin
-        $obj->category_id = $request->category_id;
-        if (Auth::check()) {
-            $obj->user_id = Auth::user()->id;
-        } else {
-            $obj->user_id = 1;
-        }
-        $obj->title = $request->title;
-        $obj->description = $request->description;
-        $obj->content = $request->content;
-        if ($path != '') {
-            $obj->image = $path;
-        }
-        $obj->caption = $request->caption;
-        $obj->save();
-        return redirect()->route('news');
+
+        // Upload ảnh mới
+        $filename = $request->file('image')->getClientOriginalName();
+        $request->file('image')->storeAs('upload', $filename, 'public');
     }
+
+    // 3. Cập nhật dữ liệu
+    $obj->category_id = $request->category_id;
+    $obj->user_id = Auth::check() ? Auth::user()->id : 1;
+    $obj->title = $request->title;
+    $obj->description = $request->description;
+    $obj->content = $request->content;
+    $obj->image = $filename;   // luôn update vào DB
+    $obj->caption = $request->caption;
+
+    $obj->save();
+
+    return redirect()->route('news');
+}
+
     /**
     * Remove the specified resource from storage.
     */
@@ -133,12 +126,22 @@ class NewsController extends Controller
         }
         return redirect()->route('news');
     }
+    public function destroyduyet($id)
+    {
+        $obj = News::find($id);
+        $obj-> delete();
+        // xóa hình ảnh của bản tin
+        if (!empty($obj->image)) {
+            Storage::disk('public')->delete($obj->image);
+        }
+        return redirect()->route('tinchuaduyet');
+    }
     public function main()
     {
         // Lấy 20 tin mới nhất
-        $news = News::orderBy('created_at', 'desc')->take(20)->get();
-        // Trả về view riêng cho trang chủ
-        return view('main', compact('news'));
+    $newsall = News::orderBy('created_at', 'desc')->get();
+    $news = News::where('status', 1)->get();
+    return view('main', compact('news'));
     }
     public function tintucchude($idchude){
     $query = News::orderBy('created_at', 'desc');
@@ -149,4 +152,23 @@ class NewsController extends Controller
     $categories = Category::all();
     return view('tintucchude', compact('news', 'categories', 'idchude'));
     }
+    public function duyettin($idnews)
+{
+    $updated = News::where('id', $idnews)
+                ->update(['status' => 1]);
+
+    if ($updated) {
+        return redirect()->back()->with('success', 'Duyệt tin thành công!');
+    }
+    return redirect()->back()->with('error', 'Tin không tồn tại hoặc đã duyệt!');
+}
+
+    public function chitiet($id)
+{
+    $news = News::with(['comments' => function($query) {
+    $query->where('status', 1);
+}])->findOrFail($id);
+    return view('trangtinchitiet', compact('news'));
+}
+
 }

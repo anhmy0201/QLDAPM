@@ -29,8 +29,8 @@
 
                             <div class="col-md-6">
                                 <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" required>
-                                    <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>User</option>
-                                    <option value="0" {{ old('role') == '0' ? 'selected' : '' }}>Admin</option>
+                                    <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>Độc giả</option>
+                                    <option value="0" {{ old('role') == '2' ? 'selected' : '' }}>Tác giả</option>
                                 </select>
 
                                 @error('role')

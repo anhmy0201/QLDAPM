@@ -9,6 +9,7 @@
 <tr class="text-center">
 <th width="5%">STT</th>
 <th width="45%">Tiêu đề</th>
+<th width="20%">Người đăng</th>
 <th width="20%">Hình</th>
 <th width="10%">Chi tiết</th>
 <th width="10%">Sửa</th>
@@ -23,6 +24,7 @@
 <tr valign="middle">
 <td>{{ $loop->iteration }}</td>
 <td>{{ $value->title }}</td>
+<td>{{ $value->user->name }}</td>
 <td class="text-center">
     <img src="{{ asset('storage/image/' . $value->image) }}" 
          class="img-thumbnail object-fit-cover" 

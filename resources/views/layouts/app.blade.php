@@ -67,12 +67,71 @@
     </ul>
 </li>
                     </ul>
-
                     <ul class="navbar-nav ms-auto align-items-center">
                         @if(Auth::check() && Auth::user()->role == "0")
-                            <li class="nav-item me-2">
-                                <a class="btn btn-outline-danger btn-sm fw-bold" href="{{ url('/home_admin') }}">
-                                    <i class="bi bi-gear-fill"></i> Quản trị
+  <li class="nav-item dropdown me-2">
+                                <a class="nav-link dropdown-toggle btn btn-outline-light text-danger border-danger border-opacity-25 rounded px-3"
+                                    href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> Quản trị viên
+                                </a>
+                               <ul class="dropdown-menu dropdown-menu-end shadow border-0"
+    aria-labelledby="adminDropdown">
+    <li>
+        <a class="dropdown-item" href="{{ url('/home_admin') }}">
+            <i class="bi bi-speedometer2 me-2"></i>Dashboard
+        </a>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+
+    <li>
+        <a class="dropdown-item" href="{{ url('/category') }}">
+            <i class="bi bi-list-task me-2"></i>Quản lý Danh mục
+        </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <li>
+        <a class="dropdown-item" href="{{ url('/news/tinchuaduyet') }}">
+            <i class="bi bi-hourglass-split me-2"></i>Tin chờ duyệt
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="{{ url('/news') }}?status=approved">
+            <i class="bi bi-check-circle me-2"></i>Tin đã duyệt
+        </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <li>
+        <a class="dropdown-item" href="{{ url('/comments/binhluanchuaduyet') }}">
+            <i class="bi bi-chat-left-text me-2"></i>Bình luận chờ duyệt
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="{{ url('/comments') }}">
+            <i class="bi bi-chat-left-text-fill me-2"></i>Bình luận
+        </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <!-- ✓ Thêm phần quản lý người dùng -->
+    <li>
+        <a class="dropdown-item" href="{{ url('/user') }}">
+            <i class="bi bi-people-fill me-2"></i>Quản lý người dùng
+        </a>
+    </li>
+</ul>
+
+
+                        @endif
+                        @if(Auth::check() && Auth::user()->role == 2)
+                            <li class="nav-item">
+                                <a class="btn btn-outline-primary btn-sm fw-bold" href="{{ route('news.create') }}">
+                                    <i class="bi bi-plus-circle"></i> Đăng tin
                                 </a>
                             </li>
                         @endif
@@ -119,7 +178,6 @@
                 </div>
             </div>
         </nav>
-
         <main class="py-4 flex-grow-1">
             @yield('content')
         </main>

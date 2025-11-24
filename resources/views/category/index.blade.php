@@ -9,7 +9,6 @@
 <tr class="text-center">
 <th width="5%">STT</th>
 <th width="45%">Tên danh mục</th>
-<th width="10%">Chi tiết</th>
 <th width="10%">Sửa</th>
 <th width="10%">Xóa</th>
 </tr>
@@ -19,9 +18,6 @@
 <tr>
 <td>{{ $loop->iteration }}</td>
 <td>{{ $value->name }}</td>
-<td class="text-center">
-<a href="{{ route('category.detail', ['id' => $value->id]) }}" class="btn btnlight">Chi tiết</a>
-</td>
 <td class="text-center">
 <a href="{{ route('category.edit', ['id' => $value->id]) }}" class="btn btnwarning">Sửa</a>
 </td>

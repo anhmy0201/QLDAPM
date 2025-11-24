@@ -19,7 +19,7 @@
                         <h3 class="card-title fw-bold">{{ $firstNews->title }}</h3>
                         <p class="card-text text-light opacity-75">{{ Str::limit($firstNews->description, 150) }}</p>
                         <p class="card-text"><small class="text-muted">{{ $firstNews->created_at->format('d/m/Y') }}</small></p>
-                        <a href="{{ route('news.detail', $firstNews->id) }}" class="btn btn-outline-light mt-2">Đọc ngay</a>
+                        <a href="{{ route('news.chitiet', $firstNews->id) }}" class="btn btn-outline-light mt-2">Đọc ngay</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
 
                             {{-- Tiêu đề --}}
                             <h5 class="card-title fw-bold">
-                                <a href="{{ route('news.detail', $item->id) }}" class="text-decoration-none text-dark stretched-link">
+                                <a href="{{ route('news.chitiet', $item->id) }}" class="text-decoration-none text-dark stretched-link">
                                     {{ Str::limit($item->title, 60) }}
                                 </a>
                             </h5>
@@ -80,7 +80,7 @@
                 
                 <div class="list-group list-group-flush shadow-sm rounded">
                     @foreach($news->take(5) as $item)
-                    <a href="{{ route('news.detail', $item->id) }}" class="list-group-item list-group-item-action p-3 d-flex align-items-start">
+                    <a href="{{ route('news.chitiet', $item->id) }}" class="list-group-item list-group-item-action p-3 d-flex align-items-start">
                         <div class="flex-shrink-0 me-3" style="width: 80px;">
                             <div class="ratio ratio-1x1">
                                 <img src="{{ asset('storage/image/' . $item->image) }}" 

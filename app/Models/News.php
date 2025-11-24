@@ -15,7 +15,7 @@ class News extends Model
     public function User(): BelongsTo // mỗi bản tin do một user đăng
     {return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    public function Comment(): HasMany // mỗi bản tin có nhiều bình luận
-    {return $this->HasMany(Comment::class, 'news_id', 'id');
+    public function Comments(): HasMany // mỗi bản tin có nhiều bình luận
+    {return $this->HasMany(Comment::class, 'new_id', 'id');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\Comment;
 class ViewServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +27,9 @@ class ViewServiceProvider extends ServiceProvider
         });
          View::composer('*', function ($view) {
             $view->with('newsall', News::all());
+        });
+                 View::composer('*', function ($view) {
+            $view->with('commentsall', Comment::all());
         });
     }
 }

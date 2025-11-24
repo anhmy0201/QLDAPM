@@ -6,7 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\CkeditorController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,14 +28,32 @@ Route::post('/news/create', [NewsController::class, 'store'])->name('news.create
 Route::get('/news/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
 Route::post('/news/edit/{id}', [NewsController::class, 'update'])->name('news.edit');
 Route::get('/news/delete/{id}', [NewsController::class, 'destroy'])->name('news.delete');
+Route::get('/news/destroy/{id}', [NewsController::class, 'destroyduyet'])->name('news.deleteduyet');
+// Quản lý các bình luận
+Route::post('/comments/create/{id}', [CommentController::class, 'store'])->name('comment.create');
+Route::get('/comments', [CommentController::class, 'main'])->name('comments');
+Route::get('/comments/delete/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
+Route::get('/comments/duyet/{id}', [CommentController::class, 'duyet'])->name('comment.duyet');
+// Quản lý các user
+Route::get('/user', [UserController::class, 'index'])->name('user');
+Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
 //Route::get('/', function () {
 // return view('welcome');
 //});
 // Trang xem tin mặc định
 Route::get('/', [NewsController::class, 'main'])->name('main');
-
 Route::get('/home_admin', function () {
     return view('home_admin');
 })->middleware('auth')->name('home_admin');
-
+Route::get('/news/tinchuaduyet', function() {
+    return view('news.tinchuaduyet');
+})->name('tinchuaduyet');
+Route::get('/comments/binhluanchuaduyet', function() {
+    return view('comments.binhluanchuaduyet');
+})->name('binhluanchuaduyet');
+Route::get('/news/duyettin/{id}', [NewsController::class, 'duyettin'])->name('news.duyettin');
 Route::get('/views/tintucchude/{id}', [NewsController::class, 'tintucchude'])->name('tintucchude');
+Route::get('/news/chitiet/{id}', [NewsController::class, 'chitiet'])->name('news.chitiet');
+Route::post('/ckeditor/upload', [CkeditorController::class, 'upload'])->name('ckeditor.upload');
+
+

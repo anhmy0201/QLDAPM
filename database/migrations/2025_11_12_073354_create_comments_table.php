@@ -13,13 +13,13 @@ return new class () extends Migration {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('new_id')->constrained('news');
-            $table->string('email');
+            $table->foreignId('user_id')
+          ->constrained('users');
             $table->text('content');
             $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
