@@ -34,7 +34,7 @@
                 @foreach($news->skip(1) as $item)
                 <div class="col">
                     <div class="card h-100 border-0 shadow-sm hover-shadow transition-card">
-                        {{-- Ảnh bài viết --}}
+                        {{-- Ảnh bài viếtttt --}}
                         <div class="ratio ratio-4x3">
                             <img src="{{ asset('storage/image/' . $item->image) }}" 
                                  class="card-img-top object-fit-cover" alt="{{ $item->title }}">
